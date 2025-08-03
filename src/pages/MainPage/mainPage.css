@@ -1,0 +1,197 @@
+.mainPage {
+  display: flex;
+  padding: 0.5rem;
+  background: url(https://storage.googleapis.com/carsnipe-online.firebasestorage.app/images/soft-background.png);
+  height: 100vh;
+  position: relative;
+  z-index: 0;
+}
+
+.mainPage a {
+  text-decoration: none;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.tile {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.column:first-child .tile:first-child,
+.column:first-child .tile:last-child,
+.column:last-child .tile:first-child,
+.column:last-child .tile:nth-child(2) {
+  width: 24.3vw;
+}
+
+.column:first-child .tile:first-child {
+  background: rgba(0, 255, 0, 0.5);
+  height: 50%;
+}
+
+.column:first-child .tile:last-child {
+  background: yellow;
+  height: 50%;
+}
+
+.column:first-child .tile:last-child .mainpage__cardText_black {
+  background: transparent;
+}
+
+.column:nth-child(2) {
+  margin: 0 .2rem;
+}
+
+.column:nth-child(2) .tile {
+  background: url(https://storage.googleapis.com/carsnipe-online.firebasestorage.app/images/auctionsHub.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 50vw;
+  height: 100%;
+  color: white;
+  align-items: flex-start;
+  padding-top: 30%;
+}
+
+.column:nth-child(2) .darkTile {
+  background: url(https://storage.googleapis.com/carsnipe-online.firebasestorage.app/images/auctionsHub%20-%20dark%20mode.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 50vw;
+  height: 100%;
+  color: white;
+}
+
+.column:last-child .tile:first-child {
+  background: rgb(192, 108, 55);
+  height: 45%;
+
+}
+
+.column:last-child .tile:nth-child(2) {
+  background: rgb(182, 182, 34);
+  height: 45%;
+}
+
+.column:last-child .tile:nth-child(3) {
+  background: rgb(48, 64, 183);
+  height: 25%;
+}
+
+.column:last-child .tile:last-child {
+  background: #ddd;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: 1.2rem;
+}
+
+.focused {
+  box-sizing: border-box;
+  filter: brightness(0.8);
+  outline: 3px solid rgb(180, 50, 50);
+  cursor: pointer;
+}
+
+.mainActionsModal__row {
+  height: 6vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px;
+  background: #528a4c;
+  font-size: 2vh;
+  font-weight: 600;
+}
+
+.mainHub__card:hover {
+  border: 2px solid red;
+}
+
+.mainpage__cardText_black {
+  font-size: 5vh;
+  font-weight: 600;
+  color: #333;
+  padding: 0.3vh 1.5vh;
+  border-radius: 0.7vh;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.activeCard {
+  border: 0.2rem solid red;
+  border-radius: 15px;
+}
+
+@media (max-width: 512px) {
+  .mainPage {
+    flex-direction: column;
+  }
+
+  .column {
+    width: 100%;
+  }
+
+  .tile {
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainPage {
+    padding: 10px;
+    flex-direction: column;
+  }
+
+  .column {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .column:first-child .tile:first-child,
+  .column:first-child .tile:last-child,
+  .column:last-child .tile:first-child,
+  .column:last-child .tile:nth-child(2) {
+    width: 100%;
+    height: 80vw;
+  }
+
+  .column:nth-child(2) .tile {
+    width: 100%;
+    height: 80vh;
+  }
+
+  .mainActionsModal__row {
+    font-size: 1.5vh;
+  }
+
+  .mainpage__cardText_black {
+    font-size: 4vh;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .mainPage {
+    padding: 15px;
+  }
+
+  .tile {
+    font-size: 1.5rem;
+  }
+}

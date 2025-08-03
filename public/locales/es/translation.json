@@ -1,0 +1,80 @@
+{
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "selectLanguage": "Seleccionar idioma",
+    "darkMode": "Modo oscuro",
+    "soundEffects": "Efectos de sonido",
+    "musicVolume": "Volumen de la música"
+  },
+  "common": {
+    "on": "Activado",
+    "off": "Desactivado",
+    "user": "Usuario"
+  },
+  "header": {
+    "alt": {
+      "drawer": "Abrir menú",
+      "store": "Tienda",
+      "avatar": "Avatar del usuario",
+      "music": "Música",
+      "sound": "Sonido",
+      "previousStation": "Estación anterior",
+      "nextStation": "Siguiente estación"
+    },
+    "drawer": {
+      "menu": "Menú",
+      "close": "Cerrar menú",
+      "mainMenu": "Menú principal",
+      "carsStore": "Tienda de coches",
+      "myCars": "Mis coches",
+      "auctions": "Subastas",
+      "messages": "Mensajes"
+    },
+    "quickSettings": {
+      "ariaLabel": "Menú de configuración",
+      "darkMode": "Modo oscuro",
+      "music": "Música",
+      "sound": "Sonido"
+    },
+    "menuItems": {
+      "mainMenu": "Menú principal",
+      "carsStore": "Tienda de coches",
+      "myCars": "Mis coches",
+      "auctions": "Subastas",
+      "messages": "Mensajes"
+    },
+    "mainPage": {
+      "myCars": "Mis coches",
+      "carsStore": "Tienda de coches",
+      "auctions": "Subastas",
+      "bank": "Banco",
+      "profile": "Perfil",
+      "settings": "Ajustes"
+    }
+  },
+  "auctionActionsModal": {
+    "carDetails": "Detalles del coche",
+    "makeABid": "Hacer una oferta",
+    "buyOut": "Comprar ahora",
+    "openUserProfile": "Abrir perfil del usuario",
+    "loading": "Cargando...",
+    "errors": {
+      "noAuctionSelected": "No se puede abrir el perfil del usuario: No hay subasta seleccionada",
+      "profileNotAvailable": "Perfil de usuario no disponible para esta subasta",
+      "couldNotOpenProfile": "No se pudo abrir el perfil del usuario"
+    }
+  },
+  "carDetailsModal": {
+    "buyCar": "Comprar coche",
+    "buy": "Comprar",
+    "sellOnAuction": "Vender en subasta",
+    "showCarInfo": "Mostrar información del coche",
+    "chooseColor": "Elegir color",
+    "buyAsGift": "Comprar como regalo",
+    "removeFromGarage": "Eliminar coche del garaje",
+    "offlineFeature": "Esta función requiere conexión a internet",
+    "close": "Cerrar"
+  },
+  "welcome": "Bienvenido a CarSnipe"
+}

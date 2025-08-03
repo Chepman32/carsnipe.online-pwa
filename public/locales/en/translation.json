@@ -1,0 +1,80 @@
+{
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "selectLanguage": "Select Language",
+    "darkMode": "Dark Mode",
+    "soundEffects": "Sound Effects",
+    "musicVolume": "Music Volume"
+  },
+  "common": {
+    "on": "On",
+    "off": "Off",
+    "user": "User"
+  },
+  "header": {
+    "alt": {
+      "drawer": "Open Menu",
+      "store": "Store",
+      "avatar": "User avatar",
+      "music": "Music",
+      "sound": "Sound",
+      "previousStation": "Previous station",
+      "nextStation": "Next station"
+    },
+    "drawer": {
+      "menu": "Menu",
+      "close": "Close menu",
+      "mainMenu": "Main Menu",
+      "carsStore": "Cars Store",
+      "myCars": "My Cars",
+      "auctions": "Auctions",
+      "messages": "Messages"
+    },
+    "quickSettings": {
+      "ariaLabel": "Settings Menu",
+      "darkMode": "Dark Mode",
+      "music": "Music",
+      "sound": "Sound"
+    },
+    "menuItems": {
+      "mainMenu": "Main Menu",
+      "carsStore": "Cars Store",
+      "myCars": "My Cars",
+      "auctions": "Auctions",
+      "messages": "Messages"
+    },
+    "mainPage": {
+      "myCars": "My Cars",
+      "carsStore": "Cars Store",
+      "auctions": "Auctions",
+      "bank": "Bank",
+      "profile": "Profile",
+      "settings": "Settings"
+    }
+  },
+  "auctionActionsModal": {
+    "carDetails": "Car Details",
+    "makeABid": "Make a bid",
+    "buyOut": "Buy out",
+    "openUserProfile": "Open user's profile",
+    "loading": "Loading...",
+    "errors": {
+      "noAuctionSelected": "Cannot open user profile: No auction selected",
+      "profileNotAvailable": "User profile not available for this auction",
+      "couldNotOpenProfile": "Could not open user profile"
+    }
+  },
+  "carDetailsModal": {
+    "buyCar": "Buy car",
+    "buy": "Buy",
+    "sellOnAuction": "Sell on auction",
+    "showCarInfo": "Show car info",
+    "chooseColor": "Choose color",
+    "buyAsGift": "Buy as a gift",
+    "removeFromGarage": "Remove the car from garage",
+    "offlineFeature": "This feature requires internet connection",
+    "close": "Close"
+  },
+  "welcome": "Welcome to CarSnipe"
+}

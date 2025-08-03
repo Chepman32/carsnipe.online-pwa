@@ -1,0 +1,56 @@
+.slot-machine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.slot-reel {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.slot-item {
+  width: 100%; /* Full width within slot-char */
+  height: 33vh !important;
+  object-fit: contain; /* Ensure no cropping occurs */
+  margin-bottom: 100px;
+}
+
+.slot-container {
+  width: 400px; /* Fixed width for the container */
+  height: 33vh !important;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+
+.slot-char {
+  display: flex; /* Ensure images stack properly */
+  align-items: center;
+  justify-content: center;
+  height: 33vh !important;
+  width: 400px; /* Match container width */
+}
+
+.spin-button {
+  font-size: 24px;
+  padding: 15px 30px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.spin-button:hover {
+  background-color: #ff4435;
+}
+
+.React Slot Counter {
+  height: 33vh !important;
+}
+

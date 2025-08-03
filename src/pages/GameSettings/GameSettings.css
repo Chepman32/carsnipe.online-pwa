@@ -1,0 +1,111 @@
+.settings-container {
+  width: 60%;
+  margin: 40px auto;
+  padding: 40px;
+  font-size: 1.2em;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.settings-row {
+  margin-bottom: 5%;
+  display: flex;
+  align-items: center;
+}
+
+.settings-row > .ant-col:first-child {
+  font-weight: bold;
+}
+
+.settings-row.focused {
+  background-color: #f0f0f0;
+  border: 2px solid #1890ff;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.dark-mode #main-container:not(.customHeader) {
+  background-image: url('https://storage.googleapis.com/carsnipe-online.firebasestorage.app/images/a9bdf515-102c-4bf3-abb4-afca1e533796-dark.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #121212;
+  color: #ffffff;
+  transition: background-image 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .settings-container {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+}
+
+.dark-mode .settings-row.focused {
+  background-color: #333333;
+  border: 2px solid #1e90ff;
+}
+
+.language-selector {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.language-selector .ant-select-selector {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.language-selector .ant-select-selection-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.language-selector .ant-select-selection-item img {
+  width: 20px !important;
+  height: 15px !important;
+  object-fit: cover !important;
+}
+
+.language-selector .ant-select-arrow {
+  color: var(--text-color) !important;
+}
+
+.language-selector:hover .ant-select-selector {
+  border-color: var(--primary-color) !important;
+}
+
+.language-selector.ant-select-focused .ant-select-selector {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+.language-selector .ant-select-dropdown {
+  background-color: var(--background-color) !important;
+}
+
+.language-selector .ant-select-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 12px !important;
+}
+
+.language-selector .ant-select-item img {
+  width: 20px !important;
+  height: 15px !important;
+  object-fit: cover !important;
+}
+
+.language-selector .ant-select-item:hover {
+  background-color: var(--hover-color) !important;
+}
+
+.language-selector .ant-select-item-option-selected {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}

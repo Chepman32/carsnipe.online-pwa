@@ -1,0 +1,429 @@
+/* styles.css */
+@import url("../../shared/darkTheme.css");
+
+/* Prevent scrolling on the page */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+:root {
+  --background-image: url('https://storage.googleapis.com/carsnipe-online.firebasestorage.app/images/a9bdf515-102c-4bf3-abb4-afca1e533796.png');
+  --background-color: #f0f2f5;
+  --box-background: #ffffff;
+  --text-color: #000000;
+  --border-color: #e8e8e8;
+  --button-primary: #1890ff;
+  --button-primary-hover: #40a9ff;
+  --button-danger: #ff4d4f;
+  --button-danger-hover: #ff7875;
+  --input-background: #ffffff;
+  --input-text: #000000;
+  --textarea-background: #ffffff;
+  --textarea-text: #000000;
+  --avatar-border: #1890ff;
+  --link-background: #1890ff;
+  --link-hover: #40a9ff;
+  --link-text: #ffffff;
+  --notification-background: #ffffff;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  background: var(--background-image);
+  transition: background-color 0.3s ease;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0;
+  padding-top: 2vh;
+  margin: 0;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Stylish scrollbar for profile-container */
+.profile-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.profile-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.profile-container::-webkit-scrollbar-thumb {
+  background: rgba(135, 206, 250, 0.7);
+  border-radius: 6px;
+}
+
+.profile-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 180, 255, 0.9);
+}
+
+.profile-box {
+  background-color: var(--box-background);
+  padding: clamp(6px, 1.5vw, 10px);
+  padding-top: clamp(4px, 1vw, 8px);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 95% !important;
+  max-width: 95vw !important;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+
+
+.dark-mode .profile-title {
+  text-align: center;
+  margin-bottom: clamp(8px, 2vw, 12px);
+  font-weight: 600;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+  font-size: clamp(1.5rem, 6vw, 2rem); /* Increased font size for larger title */
+}
+
+.avatar-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.8rem;
+  justify-content: center;
+  margin-bottom: 15px;
+  padding: 0.2rem 0.1rem;
+  width: 90vw !important;
+  max-width: 90% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  order: 1; /* Ensure avatar container appears first in flex layout */
+}
+
+.avatar-item {
+  width: 100%;
+  aspect-ratio: 1;
+  margin: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s, transform 0.3s;
+  object-fit: cover;
+  max-width: 120px; /* Increased size */
+  min-width: 90px; /* Increased minimum size */
+  justify-self: center; /* Center in grid cell */
+}
+
+.avatar-item.selected {
+  border-color: var(--avatar-border);
+  transform: scale(1.08); /* Reduced scale to prevent overlap */
+}
+
+.avatar-item:hover {
+  transform: scale(1.05); /* Reduced scale to prevent overlap */
+}
+
+.profile-form {
+  order: 2; /* Ensure form appears after avatar container */
+  width: 30%; /* Reduced width to 30% of page width */
+  margin: 0 auto; /* Center the form */
+}
+
+.input-field {
+  margin-bottom: 0.5rem;
+}
+
+.input-field input {
+  background-color: var(--input-background);
+  color: var(--input-text);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  padding: 0.5rem 0.75rem; /* Reduced padding */
+  height: auto;
+}
+
+.textarea-field {
+  margin-bottom: 0.5rem;
+}
+
+.textarea-field textarea {
+  background-color: var(--textarea-background);
+  color: var(--textarea-text);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  min-height: 60px; /* Further reduced height */
+  max-height: 80px; /* Reduced maximum height */
+  padding: 0.5rem 0.75rem; /* Reduced padding */
+}
+
+.save-button {
+  margin-bottom: 0.5rem;
+  background-color: var(--button-primary);
+  border-color: var(--button-primary);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  padding: 0.5rem 1rem; /* Reduced padding */
+  height: auto;
+  min-width: 150px; /* Reduced minimum width */
+}
+
+.save-button:hover,
+.save-button:focus {
+  background-color: var(--button-primary-hover);
+  border-color: var(--button-primary-hover);
+}
+
+.signout-button {
+  margin-top: 0.5rem;
+  background-color: var(--button-danger);
+  border-color: var(--button-danger);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  padding: 0.5rem 1rem; /* Reduced padding */
+  height: auto;
+  min-width: 150px; /* Reduced minimum width */
+}
+
+.signout-button:hover,
+.signout-button:focus {
+  background-color: var(--button-danger-hover);
+  border-color: var(--button-danger-hover);
+}
+
+.achievements-button {
+  position: fixed; /* Changed to fixed to ensure visibility regardless of container */
+  bottom: 20px;
+  right: 20px;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #000000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 9999; /* Increased z-index to ensure visibility */
+  min-width: 140px;
+  text-align: center;
+  display: block; /* Ensure it's displayed */
+  opacity: 1; /* Ensure it's fully visible */
+}
+
+.achievements-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background-color: #333333;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 1vh;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .profile-box {
+    width: 95%;
+    max-width: 95%;
+    margin: 0 auto;
+    padding: 10px;
+    padding-top: 8px;
+    min-height: auto;
+  }
+  
+  /* Responsive scrollbar for smaller screens */
+  .profile-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .profile-form {
+    width: 50%; /* Wider on medium screens but still narrower than default */
+  }
+}
+
+@media (max-width: 768px) {
+  .avatar-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-template-columns: repeat(4, 1fr); /* Reduced number of columns for larger avatars */
+  }
+
+  .avatar-item {
+    border-width: 2px;
+    max-width: 100px; /* Increased size for medium screens */
+    min-width: 80px;
+  }
+
+  .dark-mode .profile-title,
+  .profile-title {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .input-field input {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    height: 36px;
+  }
+
+  .textarea-field textarea {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    min-height: 60px;
+    max-height: 80px;
+  }
+
+  .save-button,
+  .signout-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    min-width: 120px;
+    height: 36px;
+  }
+
+  .achievements-button {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    padding-top: 0.5vh;
+  }
+  
+  /* Even smaller scrollbar for mobile devices */
+  .profile-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .profile-form {
+    width: 80%; /* Wider on small screens but still narrower than default */
+  }
+  .avatar-container {
+    grid-template-columns: repeat(3, 1fr); /* Reduced number of columns for larger avatars */
+    gap: 0.5rem; /* Increased gap for better spacing */
+  }
+
+  .avatar-item {
+    max-width: 90px; /* Increased size for small screens */
+    min-width: 70px;
+    border-width: 1px;
+  }
+
+  .dark-mode .profile-title,
+  .profile-title {
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 8px;
+    padding-top: 0;
+  }
+
+  .input-field,
+  .textarea-field {
+    margin-bottom: 8px;
+  }
+
+  .input-field input {
+    height: 32px;
+    padding: 0.4rem;
+  }
+
+  .textarea-field textarea {
+    min-height: 50px;
+    max-height: 70px;
+    padding: 0.4rem;
+  }
+
+  .save-button,
+  .signout-button {
+    margin-bottom: 8px;
+    margin-top: 8px;
+    padding: 0.4rem 0.8rem;
+    min-width: 100px;
+    height: 32px;
+  }
+
+  .achievements-button {
+    bottom: 10px;
+    right: 10px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    min-width: 110px;
+  }
+}
+
+/* Focus States for Accessibility */
+.save-button:focus,
+.signout-button:focus,
+.achievements-button:focus,
+.avatar-item.focused {
+  outline: 2px solid var(--link-hover);
+  outline-offset: 2px;
+}
+
+.focused {
+  outline: 2px solid var(--link-hover) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(24, 144, 255, 0.2);
+}
+
+/* Override Ant Design Styles for Dark Mode */
+.dark-mode .ant-input,
+.dark-mode .ant-input-affix-wrapper,
+.dark-mode .ant-input-textarea {
+  background-color: var(--input-background) !important;
+  color: var(--input-text) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.dark-mode .ant-input:hover,
+.dark-mode .ant-input-focused,
+.dark-mode .ant-input-affix-wrapper:hover,
+.dark-mode .ant-input-affix-wrapper-focused,
+.dark-mode .ant-input-textarea:hover,
+.dark-mode .ant-input-textarea-focused {
+  border-color: var(--link-hover) !important;
+}
+
+.dark-mode .ant-input::placeholder,
+.dark-mode .ant-input-textarea::placeholder {
+  color: #bfbfbf;
+}
+
+/* Ensure touch targets are large enough */
+@media (max-width: 768px) {
+  button,
+  .avatar-item,
+  .achievements-button {
+    min-height: 52px; /* Larger minimum touch target size */
+    min-width: 52px;
+  }
+}
+
+/* Remove the overflow restriction from root elements */
+#root, .ant-layout {
+  width: 100%;
+  height: 100%;
+}
