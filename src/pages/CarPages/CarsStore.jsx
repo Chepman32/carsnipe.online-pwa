@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Modal, Form, Input, message, Select, Spin } from "antd";
+import { Button, Modal, Form, Input, message, Select, Spin, Typography } from "antd";
 import "antd/dist/reset.css"; // Import Ant Design CSS
 import { supabase } from "../../supabase";
 import "./carsPage.css";
@@ -430,7 +430,15 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
     }
   }, [isDemoMode]); // Add isDemoMode as dependency
 
-  useEffect(() => { fetchCars() }, [fetchCars]);
+  // Modified useEffect to ensure cars are fetched when component mounts or when authentication state changes
+  useEffect(() => {
+    // Only fetch cars if we have playerInfo (user is authenticated) or if we're in demo mode
+    // In demo mode, also ensure demoUser is available
+    if ((playerInfo && !isDemoMode) || (isDemoMode && demoUser)) {
+      console.log("CarsStore: Fetching cars - playerInfo:", !!playerInfo, "isDemoMode:", isDemoMode, "demoUser:", !!demoUser);
+      fetchCars();
+    }
+  }, [fetchCars, playerInfo, isDemoMode, demoUser]);
 
 
 
@@ -1100,7 +1108,19 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
   return (
     <>
     <div className="cars" tabIndex="-1"> {/* Make div focusable but not via sequential keyboard nav */}
-      {carsLoading ? (
+      {/* Show message if user is not authenticated and not in demo mode */}
+      {!playerInfo && !isDemoMode ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh', flexDirection: 'column' }}>
+          <Typography.Text style={{ fontSize: '18px', marginBottom: '16px' }}>
+            Please sign in to view the cars store
+          </Typography.Text>
+          <Spin size="large" />
+        </div>
+      ) : (isDemoMode && !demoUser) ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+          <Spin size="large" />
+        </div>
+      ) : carsLoading ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
             <Spin size="large" />
         </div>

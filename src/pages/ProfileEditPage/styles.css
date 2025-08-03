@@ -48,6 +48,39 @@ html, body {
   position: relative;
 }
 
+/* Add scroll indicator */
+.profile-container::after {
+  content: '';
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(45deg, transparent 30%, var(--button-primary) 30%, var(--button-primary) 70%, transparent 70%);
+  border-radius: 50%;
+  animation: bounce 2s infinite;
+  z-index: 1000;
+  opacity: 0.7;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* Hide scroll indicator when buttons are in view */
+.profile-container.buttons-visible::after {
+  display: none;
+}
+
 /* Stylish scrollbar for profile-container */
 .profile-container::-webkit-scrollbar {
   width: 12px;
@@ -95,18 +128,25 @@ html, body {
   font-size: clamp(1.5rem, 6vw, 2rem); /* Increased font size for larger title */
 }
 
+/* Improve avatar container spacing */
 .avatar-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Reduced minimum size */
+  gap: 0.6rem; /* Reduced gap */
   justify-content: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px; /* Reduced bottom margin */
   padding: 0.2rem 0.1rem;
   width: 90vw !important;
   max-width: 90% !important;
   margin-left: auto !important;
   margin-right: auto !important;
   order: 1; /* Ensure avatar container appears first in flex layout */
+  max-height: 250px; /* Reduced height to ensure buttons are visible */
+  overflow-y: auto; /* Make avatar container scrollable */
+  overflow-x: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
 }
 
 .avatar-item {
@@ -118,24 +158,38 @@ html, body {
   border: 2px solid transparent;
   transition: border-color 0.3s, transform 0.3s;
   object-fit: cover;
-  max-width: 120px; /* Increased size */
-  min-width: 90px; /* Increased minimum size */
+  max-width: 80px; /* Reduced size */
+  min-width: 60px; /* Reduced minimum size */
   justify-self: center; /* Center in grid cell */
 }
 
 .avatar-item.selected {
   border-color: var(--avatar-border);
-  transform: scale(1.08); /* Reduced scale to prevent overlap */
+  transform: scale(1.05); /* Reduced scale */
 }
 
 .avatar-item:hover {
-  transform: scale(1.05); /* Reduced scale to prevent overlap */
+  transform: scale(1.02); /* Reduced scale */
 }
 
 .profile-form {
   order: 2; /* Ensure form appears after avatar container */
   width: 30%; /* Reduced width to 30% of page width */
   margin: 0 auto; /* Center the form */
+  margin-top: 15px; /* Reduced top margin */
+  position: relative; /* Remove sticky positioning */
+  top: auto;
+  z-index: 100; /* Ensure it stays above other content */
+}
+
+/* Remove the scroll indicator since we don't need it anymore */
+.profile-container::after {
+  display: none;
+}
+
+/* Remove the visual separator since layout is now more compact */
+.profile-form::before {
+  display: none;
 }
 
 .input-field {
@@ -167,15 +221,17 @@ html, body {
   padding: 0.5rem 0.75rem; /* Reduced padding */
 }
 
+/* Add better spacing for buttons */
 .save-button {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem; /* Increased margin */
   background-color: var(--button-primary);
   border-color: var(--button-primary);
   transition: background-color 0.3s ease, border-color 0.3s ease;
   font-size: clamp(0.9rem, 3vw, 1rem);
-  padding: 0.5rem 1rem; /* Reduced padding */
+  padding: 0.75rem 1.5rem; /* Increased padding for better visibility */
   height: auto;
   min-width: 150px; /* Reduced minimum width */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 .save-button:hover,
@@ -185,14 +241,15 @@ html, body {
 }
 
 .signout-button {
-  margin-top: 0.5rem;
+  margin-top: 1rem; /* Increased margin */
   background-color: var(--button-danger);
   border-color: var(--button-danger);
   transition: background-color 0.3s ease, border-color 0.3s ease;
   font-size: clamp(0.9rem, 3vw, 1rem);
-  padding: 0.5rem 1rem; /* Reduced padding */
+  padding: 0.75rem 1.5rem; /* Increased padding for better visibility */
   height: auto;
   min-width: 150px; /* Reduced minimum width */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 .signout-button:hover,
@@ -255,56 +312,20 @@ html, body {
   
   .profile-form {
     width: 50%; /* Wider on medium screens but still narrower than default */
+    position: relative; /* Remove sticky on mobile */
+    top: auto;
+    margin-top: 15px; /* Reduced margin for mobile */
   }
-}
 
-@media (max-width: 768px) {
   .avatar-container {
-    width: 100% !important;
-    max-width: 100% !important;
-    grid-template-columns: repeat(4, 1fr); /* Reduced number of columns for larger avatars */
+    max-height: 200px; /* Smaller height on medium screens */
+    grid-template-columns: repeat(6, 1fr); /* 6 columns on medium screens */
+    gap: 0.5rem;
   }
 
   .avatar-item {
-    border-width: 2px;
-    max-width: 100px; /* Increased size for medium screens */
-    min-width: 80px;
-  }
-
-  .dark-mode .profile-title,
-  .profile-title {
-    font-size: 1.4rem;
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-
-  .input-field input {
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    height: 36px;
-  }
-
-  .textarea-field textarea {
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    min-height: 60px;
-    max-height: 80px;
-  }
-
-  .save-button,
-  .signout-button {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    min-width: 120px;
-    height: 36px;
-  }
-
-  .achievements-button {
-    bottom: 15px;
-    right: 15px;
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    min-width: 120px;
+    max-width: 70px; /* Smaller on medium screens */
+    min-width: 50px;
   }
 }
 
@@ -320,15 +341,20 @@ html, body {
   
   .profile-form {
     width: 80%; /* Wider on small screens but still narrower than default */
+    position: relative; /* Remove sticky on mobile */
+    top: auto;
+    margin-top: 10px; /* Reduced margin for mobile */
   }
+  
   .avatar-container {
-    grid-template-columns: repeat(3, 1fr); /* Reduced number of columns for larger avatars */
-    gap: 0.5rem; /* Increased gap for better spacing */
+    max-height: 150px; /* Even smaller height on small screens */
+    grid-template-columns: repeat(4, 1fr); /* 4 columns on small screens */
+    gap: 0.4rem;
   }
 
   .avatar-item {
-    max-width: 90px; /* Increased size for small screens */
-    min-width: 70px;
+    max-width: 60px; /* Smaller on small screens */
+    min-width: 40px;
     border-width: 1px;
   }
 
@@ -358,11 +384,11 @@ html, body {
 
   .save-button,
   .signout-button {
-    margin-bottom: 8px;
-    margin-top: 8px;
-    padding: 0.4rem 0.8rem;
-    min-width: 100px;
-    height: 32px;
+    margin-bottom: 12px; /* Increased margin for mobile */
+    margin-top: 12px; /* Increased margin for mobile */
+    padding: 0.6rem 1.2rem; /* Increased padding for mobile */
+    min-width: 120px;
+    height: 40px; /* Increased height for better touch targets */
   }
 
   .achievements-button {
