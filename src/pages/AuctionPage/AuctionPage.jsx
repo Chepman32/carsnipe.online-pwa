@@ -42,6 +42,13 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
   const listAuctions = useCallback(async () => {
     try {
       console.log("Fetching auctions...");
+      
+      // Early return if playerInfo is not available yet (non-demo mode)
+      if (!isDemoMode && !playerInfo) {
+        console.log("No playerInfo available yet, skipping fetch");
+        return;
+      }
+      
       if (isDemoMode) {
         // In demo mode, no auctions are available
         setAuctions([]);
@@ -493,7 +500,7 @@ export default function AuctionPage({ playerInfo, setMoney, money }) {
   useEffect(() => {
     console.log("useEffect triggered, calling listAuctions...");
     listAuctions();
-  }, []); // Only run once on mount
+  }, [listAuctions]); // Run when listAuctions changes
 
   // Flag to track initial selection
   const hasInitializedRef = useRef(false);

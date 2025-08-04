@@ -274,6 +274,13 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
       console.log("Fetching cars...");
       setCarsLoading(true); // Start loading indicator
       
+      // Early return if playerInfo is not available yet (non-demo mode)
+      if (!isDemoMode && !playerInfo) {
+        console.log("No playerInfo available yet, skipping fetch");
+        setCarsLoading(false);
+        return;
+      }
+      
       let carsData = [];
       
       // Always fetch cars from backend, even in demo mode
@@ -428,7 +435,7 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
     } finally {
       setCarsLoading(false); // Stop loading indicator
     }
-  }, [isDemoMode]); // Add isDemoMode as dependency
+  }, [isDemoMode, playerInfo]); // Add isDemoMode and playerInfo as dependencies
 
   useEffect(() => { fetchCars() }, [fetchCars]);
 
