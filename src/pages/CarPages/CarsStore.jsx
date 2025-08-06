@@ -27,7 +27,7 @@ import useSoundEffects from "../../hooks/useSoundEffects";
 import { useDemoMode } from "../../contexts/DemoModeContext";
 import { getMockCars, updateMockCars } from "../../mockData";
 import { getCarImageUrl } from "../../config/assets";
-import { processCarImages, generateAllCarData, previewFilenameTransformations } from "../../utils/imageProcessor";
+
 
 const { Option } = Select;
 // Supabase client configured in ../../supabase.js
@@ -49,7 +49,7 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
   const [carsLoading, setCarsLoading] = useState(true);
   const [allTopRowCars, setAllTopRowCars] = useState([]);
   const [allBottomRowCars, setAllBottomRowCars] = useState([]);
-  const [recreatingCars, setRecreatingCars] = useState(false);
+
 
   const { playSwitchSound } = useSoundEffects();
 
@@ -970,84 +970,7 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
       }
   };
 
-  // Function to recreate all cars from images
-  const recreateCarsFromImages = async () => {
-    try {
-      setRecreatingCars(true);
-      message.loading('Processing car images and database...', 0);
 
-      // Step 1: Delete all existing cars from database
-      const { error: deleteError } = await supabase
-        .from('cars')
-        .delete()
-        .neq('id', '00000000-0000-0000-0000-000000000000'); // Keep some cars if needed
-
-      if (deleteError) {
-        console.error('Error deleting cars:', deleteError);
-        message.error('Failed to delete existing cars');
-        return;
-      }
-
-      console.log('All existing cars deleted from database');
-
-      // Step 2: Generate car data dynamically from all files
-      const carData = generateAllCarData();
-      console.log(`Generated car data for ${carData.length} cars`);
-
-      // Step 3: Create new cars in database
-      const { data: createdCars, error: createError } = await supabase
-        .from('cars')
-        .insert(carData)
-        .select();
-
-      if (createError) {
-        console.error('Error creating cars:', createError);
-        message.error('Failed to create new cars');
-        return;
-      }
-
-      console.log('Created', createdCars.length, 'cars in database');
-
-      // Step 4: Process images - rename and upload to Firebase Storage
-      message.loading('Processing car images...', 0);
-
-      // Test filename transformations
-      console.log("Testing filename transformations:");
-      previewFilenameTransformations();
-
-      // Process car images using the utility function with progress callback
-      const fileMappings = await processCarImages((progress) => {
-        const { step, current, total, percentage, currentFile } = progress;
-        const progressText = currentFile 
-          ? `${step}: ${current}/${total} (${percentage}%) - ${currentFile}`
-          : `${step}: ${current}/${total} (${percentage}%)`;
-        
-        message.loading(progressText, 0);
-      });
-      
-      console.log('Image processing completed!');
-      console.log('Files processed:', fileMappings.length);
-      console.log('Files renamed to pattern: "Make Model.png"');
-      console.log('Files would be uploaded to Firebase Storage at: /images/cars/');
-      
-      // Log some examples of the file mappings
-      fileMappings.slice(0, 5).forEach(mapping => {
-        console.log(`  ${mapping.original} → ${mapping.renamed}`);
-      });
-
-      message.success(`Successfully recreated ${createdCars.length} cars from images!`);
-      
-      // Refresh the car list
-      await fetchCars();
-
-    } catch (error) {
-      console.error('Error in recreateCarsFromImages:', error);
-      message.error('Failed to recreate cars from images');
-    } finally {
-      setRecreatingCars(false);
-      message.destroy();
-    }
-  };
   
   // Create a dummy setFocusPosition function to prevent errors
   const setFocusPosition = (position) => {
@@ -1242,50 +1165,7 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
         </Button>
       </div> */}
 
-      {/* Temporary Button for Recreating Cars from Images */}
-      <div style={{ 
-        position: 'fixed', 
-        top: '20px', 
-        left: '20px', 
-        zIndex: 9999,
-        backgroundColor: '#ff4d4f',
-        padding: '10px',
-        borderRadius: '5px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-        minWidth: '250px'
-      }}>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            recreateCarsFromImages();
-          }}
-          disabled={recreatingCars}
-          style={{ 
-            backgroundColor: '#ff4d4f',
-            border: 'none',
-            color: 'white',
-            fontWeight: 'bold',
-            cursor: recreatingCars ? 'not-allowed' : 'pointer',
-            fontSize: '14px',
-            padding: '8px 12px',
-            borderRadius: '4px',
-            width: '100%'
-          }}
-        >
-          {recreatingCars ? '🔄 Processing 687 cars...' : '🔄 Recreate Cars from Images (687 files)'}
-        </button>
-        {recreatingCars && (
-          <div style={{
-            marginTop: '8px',
-            fontSize: '12px',
-            color: 'white',
-            textAlign: 'center'
-          }}>
-            Processing all files from src/assets/out
-          </div>
-        )}
-      </div>
+
 
 
     </div>

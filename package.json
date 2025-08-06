@@ -10,12 +10,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run",
-    "process-cars": "node scripts/processCarImages.js",
-    "rename-files": "node scripts/renameCarFiles.js",
-    "upload-firebase": "node scripts/uploadToFirebase.js",
-    "complete-processing": "node scripts/completeCarProcessing.js",
-    "fix-underscores": "node scripts/fixUnderscores.js"
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
