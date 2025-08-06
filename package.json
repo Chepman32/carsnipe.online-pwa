@@ -14,7 +14,8 @@
     "process-cars": "node scripts/processCarImages.js",
     "rename-files": "node scripts/renameCarFiles.js",
     "upload-firebase": "node scripts/uploadToFirebase.js",
-    "complete-processing": "node scripts/completeCarProcessing.js"
+    "complete-processing": "node scripts/completeCarProcessing.js",
+    "fix-underscores": "node scripts/fixUnderscores.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
