@@ -11,86 +11,86 @@ const ASSETS = {
   // Videos
   videos: {
     intro: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro.mp4?alt=media`
       : "/videos/intro.mp4",
     intro1: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro1.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro1.mp4?alt=media`
       : "/videos/intro1.mp4",
     intro2: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro2.MP4`
+      ? `${STORAGE_BASE_URL}/videos/intro2.MP4?alt=media`
       : "/videos/intro2.MP4",
     intro3: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro3.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro3.mp4?alt=media`
       : "/videos/intro3.mp4",
     intro4: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro4.MP4`
+      ? `${STORAGE_BASE_URL}/videos/intro4.MP4?alt=media`
       : "/videos/intro4.MP4",
     intro5: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro5.MP4`
+      ? `${STORAGE_BASE_URL}/videos/intro5.MP4?alt=media`
       : "/videos/intro5.MP4",
     intro6: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro6.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro6.mp4?alt=media`
       : "/videos/intro6.mp4",
     intro7: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro7.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro7.mp4?alt=media`
       : "/videos/intro7.mp4",
     intro8: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro8.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro8.mp4?alt=media`
       : "/videos/intro8.mp4",
     intro9: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro9.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro9.mp4?alt=media`
       : "/videos/intro9.mp4",
     intro10: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro10.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro10.mp4?alt=media`
       : "/videos/intro10.mp4",
     intro11: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro11.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro11.mp4?alt=media`
       : "/videos/intro11.mp4",
     intro12: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro12.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro12.mp4?alt=media`
       : "/videos/intro12.mp4",
     intro13: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro13.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro13.mp4?alt=media`
       : "/videos/intro13.mp4",
     intro14: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro14.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro14.mp4?alt=media`
       : "/videos/intro14.mp4",
     intro15: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro15.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro15.mp4?alt=media`
       : "/videos/intro15.mp4",
     intro16: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro16.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro16.mp4?alt=media`
       : "/videos/intro16.mp4",
     intro17: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro17.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro17.mp4?alt=media`
       : "/videos/intro17.mp4",
     intro18: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro18.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro18.mp4?alt=media`
       : "/videos/intro18.mp4",
     intro19: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro19.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro19.mp4?alt=media`
       : "/videos/intro19.mp4",
     intro20: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro20.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro20.mp4?alt=media`
       : "/videos/intro20.mp4",
     intro21: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro21.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro21.mp4?alt=media`
       : "/videos/intro21.mp4",
     intro22: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/videos/intro22.mp4`
+      ? `${STORAGE_BASE_URL}/videos/intro22.mp4?alt=media`
       : "/videos/intro22.mp4",
   },
 
   // Images
   images: {
     logo: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/images/Logo.png`
+      ? `${STORAGE_BASE_URL}/images/Logo.png?alt=media`
       : "/src/assets/images/Logo.png",
     welcome: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/images/welcome.png`
+      ? `${STORAGE_BASE_URL}/images/welcome.png?alt=media`
       : "/src/assets/images/welcome.png",
     auctionsHub: USE_EXTERNAL_STORAGE
-      ? `${STORAGE_BASE_URL}/images/auctionsHub.jpg`
+      ? `${STORAGE_BASE_URL}/images/auctionsHub.jpg?alt=media`
       : "/src/assets/images/auctionsHub.jpg",
     // Add more images as needed
   },
@@ -119,11 +119,20 @@ const ASSETS = {
 
 // Helper functions
 export const getVideoUrl = (videoName) => {
-  return ASSETS.videos[videoName] || `${ASSETS.videos.baseUrl}${videoName}`;
+  if (USE_EXTERNAL_STORAGE) {
+    // Firebase Storage URL format: https://firebasestorage.googleapis.com/v0/b/BUCKET/o/PATH?alt=media
+    const encodedPath = encodeURIComponent(`videos/${videoName}.mp4`);
+    return `${STORAGE_BASE_URL}/${encodedPath}?alt=media`;
+  } else {
+    return ASSETS.videos[videoName] || `${ASSETS.videos.baseUrl}${videoName}`;
+  }
 };
 
 export const getImageUrl = (imageName) => {
-  return ASSETS.images[imageName] || `${ASSETS.images.baseUrl}${imageName}`;
+  const url =
+    ASSETS.images[imageName] || `${ASSETS.images.baseUrl}${imageName}`;
+  console.log(`getImageUrl('${imageName}') returning:`, url);
+  return url;
 };
 
 export const getCarImageUrl = (carName) => {
