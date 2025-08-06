@@ -42,6 +42,7 @@ import { getVideoUrl, getImageUrl } from './config/assets';
 import PWABadge from './PWABadge.jsx';
 import "./App.css";
 import "./AuthStyles.css";
+import Logo from "./assets/logo.png";
 
 // Supabase client is configured in ./supabase.js
 
@@ -169,8 +170,21 @@ const AuthComponent = ({ onAuthSuccess, currentAuthenticatedUser }) => {
         <div>
           <img 
             alt="Carsnipe Logo" 
-            src={getImageUrl('logo')} 
+            src={Logo}
             width="160px" 
+            style={{
+              display: 'block',
+              margin: '0 auto',
+              maxWidth: '100%',
+              height: 'auto'
+            }}
+            onError={(e) => {
+              console.error('Logo failed to load:', e.target.src);
+              e.target.style.display = 'none';
+            }}
+            onLoad={() => {
+              console.log('Logo loaded successfully');
+            }}
           />
           <Title level={3} style={{ marginTop: 16 }}>
             {isSignUp ? 'Create Account' : 'Welcome Back'}
