@@ -956,10 +956,8 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
   // Get image source from external storage
   const getImageSource = (make, model) => {
       try {
-        // Basic sanitization - preserve underscores
-        const safeMake = make?.replace(/[^a-z0-9\s-_]/gi, '') || 'default';
-        const safeModel = model?.replace(/[^a-z0-9\s-_]/gi, '') || 'model';
-        const carName = `${safeMake} ${safeModel}`;
+        // Use the exact make and model from database - no sanitization needed
+        const carName = `${make} ${model}`;
         const imageUrl = getCarImageUrl(carName);
         console.log(`Generated URL for ${carName}:`, imageUrl);
         return imageUrl;
