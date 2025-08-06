@@ -1,22 +1,33 @@
 import { getImageUrl } from "../config/assets";
 
 // Music tracks are now served from Firebase Storage
-const Track1 =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app/music/Joey%20Valence%20%26%20Brae%20-%20HOOLIGANG.mp3";
-const Track2 =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app/music/SPARK%20MASTER%20TAPE%20-%20KKONKKRETE%20(OFFICIAL%20AUDIO).mp3";
-const Track3 =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app/music/ZHU%2C%20partywithray%20-%20Came%20For%20The%20Low.mp3";
-const Track4 =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app/music/Fergie%20-%20M.I.L.F.%20%24%20(Audio%20Version).mp3";
-const Track5 =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app/music/Feel%20Good%20Inc.%20Gorillaz.mp3";
-const Track6 =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app/music/Renegades%20Of%20Funk.mp3";
-const Track7 =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app/music/Son%20of%20augustine%20-%20Ask%20Me%20How.mp3";
-const Track8 =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app/music/Benny%20Benassi%20-%20Inside%20of%20Me%20HQ.mp3";
+const FIREBASE_STORAGE_BASE =
+  "https://firebasestorage.googleapis.com/v0/b/carsnipe-online.firebasestorage.app/o";
+
+const Track1 = `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(
+  "music/Joey Valence & Brae - HOOLIGANG.mp3"
+)}?alt=media`;
+const Track2 = `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(
+  "music/SPARK MASTER TAPE - KKONKKRETE (OFFICIAL AUDIO).mp3"
+)}?alt=media`;
+const Track3 = `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(
+  "music/ZHU, partywithray - Came For The Low.mp3"
+)}?alt=media`;
+const Track4 = `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(
+  "music/Fergie - M.I.L.F. $ (Audio Version).mp3"
+)}?alt=media`;
+const Track5 = `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(
+  "music/Feel Good Inc. Gorillaz.mp3"
+)}?alt=media`;
+const Track6 = `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(
+  "music/Renegades Of Funk.mp3"
+)}?alt=media`;
+const Track7 = `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(
+  "music/Son of augustine - Ask Me How.mp3"
+)}?alt=media`;
+const Track8 = `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(
+  "music/Benny Benassi - Inside of Me HQ.mp3"
+)}?alt=media`;
 
 export const stations = [
   {

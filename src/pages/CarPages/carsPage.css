@@ -168,8 +168,8 @@ body {
 }
 
 .carsPage__item__image {
-  max-width: 85%;
-  max-height: 85%;
+  max-width: 100%; /* Maximum size for bigger image */
+  max-height: 100%; /* Maximum size for bigger image */
   object-fit: contain;
   border-radius: 8px;
 }
@@ -427,8 +427,8 @@ body {
 }
 
 .car-card-image {
-  max-width: 80%; /* Reduced max-width */
-  max-height: 80%; /* Reduced max-height */
+  max-width: 100%; /* Maximum size for bigger image */
+  max-height: 100%; /* Maximum size for bigger image */
   object-fit: contain;
   border-radius: 8px;
 }
@@ -714,8 +714,8 @@ body {
   }
 
   .carsPage__item__image, .car-card-image {
-    max-width: 85%;
-    max-height: 100px; /* Reduced height */
+    max-width: 100%; /* Maximum size for bigger image */
+    max-height: 150px; /* Increased height for bigger image */
   }
 
   .carsPage__model, .car-card-model {

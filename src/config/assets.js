@@ -4,7 +4,7 @@
 const USE_EXTERNAL_STORAGE = true; // Set to false to use local assets
 
 const STORAGE_BASE_URL =
-  "https://storage.googleapis.com/carsnipe-online.firebasestorage.app";
+  "https://firebasestorage.googleapis.com/v0/b/carsnipe-online.firebasestorage.app/o";
 
 // Asset paths configuration
 const ASSETS = {
@@ -127,7 +127,13 @@ export const getImageUrl = (imageName) => {
 };
 
 export const getCarImageUrl = (carName) => {
-  return `${ASSETS.cars.baseUrl}${carName}.png`;
+  if (USE_EXTERNAL_STORAGE) {
+    // Firebase Storage URL format: https://firebasestorage.googleapis.com/v0/b/BUCKET/o/PATH?alt=media
+    const encodedPath = encodeURIComponent(`images/cars/${carName}.png`);
+    return `${STORAGE_BASE_URL}/${encodedPath}?alt=media`;
+  } else {
+    return `${ASSETS.cars.baseUrl}${carName}.png`;
+  }
 };
 
 export const getAvatarUrl = (avatarName) => {

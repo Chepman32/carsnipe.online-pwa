@@ -27,6 +27,7 @@ import useSoundEffects from "../../hooks/useSoundEffects";
 import { useDemoMode } from "../../contexts/DemoModeContext";
 import { getMockCars, updateMockCars } from "../../mockData";
 import { getCarImageUrl } from "../../config/assets";
+import { processCarImages, generateAllCarData, previewFilenameTransformations } from "../../utils/imageProcessor";
 
 const { Option } = Select;
 // Supabase client configured in ../../supabase.js
@@ -958,9 +959,12 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
         // Basic sanitization
         const safeMake = make?.replace(/[^a-z0-9\s-]/gi, '') || 'default';
         const safeModel = model?.replace(/[^a-z0-9\s-]/gi, '') || 'model';
-        return getCarImageUrl(`${safeMake} ${safeModel}`);
+        const carName = `${safeMake} ${safeModel}`;
+        const imageUrl = getCarImageUrl(carName);
+        console.log(`Generated URL for ${carName}:`, imageUrl);
+        return imageUrl;
       } catch (error) {
-         // console.warn(`Image not found for: ${make} ${model}. Using default.`);
+         console.warn(`Image not found for: ${make} ${model}. Error:`, error);
           // Use a placeholder image URL instead of requiring a local file
           return 'https://via.placeholder.com/300x200?text=Car+Image+Not+Found';
       }
@@ -970,9 +974,9 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
   const recreateCarsFromImages = async () => {
     try {
       setRecreatingCars(true);
-      message.loading('Deleting existing cars and recreating from images...', 0);
+      message.loading('Processing car images and database...', 0);
 
-      // First, delete all existing cars
+      // Step 1: Delete all existing cars from database
       const { error: deleteError } = await supabase
         .from('cars')
         .delete()
@@ -984,118 +988,64 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
         return;
       }
 
-      console.log('All existing cars deleted');
+      console.log('All existing cars deleted from database');
 
-      // Define car data based on images
-      const carData = [
-        { make: 'Porsche', model: '911 Turbo S', year: 2023, price: 250000, type: 'LEGENDARY' },
-        { make: 'Ferrari', model: '488 GTB', year: 2022, price: 320000, type: 'LEGENDARY' },
-        { make: 'Audi', model: 'Q8 quattro', year: 2023, price: 85000, type: 'EPIC' },
-        { make: 'Hummer', model: 'H1', year: 2021, price: 150000, type: 'RARE' },
-        { make: 'Volkswagen', model: 'ID4', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Volkswagen', model: 'Golf GTI', year: 2022, price: 35000, type: 'RARE' },
-        { make: 'Toyota', model: 'Tundra', year: 2023, price: 55000, type: 'REGULAR' },
-        { make: 'Toyota', model: 'Supra', year: 2023, price: 65000, type: 'EPIC' },
-        { make: 'Toyota', model: 'Land Cruiser 300', year: 2023, price: 95000, type: 'EPIC' },
-        { make: 'Toyota', model: 'Highlander', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Toyota', model: 'GR Corolla', year: 2023, price: 40000, type: 'RARE' },
-        { make: 'Toyota', model: 'Camry', year: 2023, price: 35000, type: 'REGULAR' },
-        { make: 'Tesla', model: 'Model X', year: 2023, price: 95000, type: 'EPIC' },
-        { make: 'Tesla', model: 'Model 3', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Subaru', model: 'BRZ', year: 2023, price: 35000, type: 'RARE' },
-        { make: 'Rivian', model: 'R1T', year: 2023, price: 85000, type: 'EPIC' },
-        { make: 'Rivian', model: 'R1S', year: 2023, price: 90000, type: 'EPIC' },
-        { make: 'Porsche', model: 'Cayenne', year: 2023, price: 95000, type: 'EPIC' },
-        { make: 'Porsche', model: 'Taycan', year: 2023, price: 110000, type: 'LEGENDARY' },
-        { make: 'Porsche', model: '911 GT3 RS', year: 2023, price: 280000, type: 'LEGENDARY' },
-        { make: 'Porsche', model: '718 Cayman GT4', year: 2023, price: 120000, type: 'EPIC' },
-        { make: 'Pagani', model: 'Zonda S', year: 2022, price: 2500000, type: 'LEGENDARY' },
-        { make: 'Pagani', model: 'Huayra', year: 2023, price: 3000000, type: 'LEGENDARY' },
-        { make: 'Nissan', model: 'GT-R', year: 2023, price: 120000, type: 'EPIC' },
-        { make: 'Mitsubishi', model: 'Eclipse Spyder GT', year: 2022, price: 35000, type: 'RARE' },
-        { make: 'Mercedes-Benz', model: 'GLC', year: 2023, price: 55000, type: 'REGULAR' },
-        { make: 'Mercedes-Benz', model: 'G-class', year: 2023, price: 150000, type: 'EPIC' },
-        { make: 'Mercedes-Benz', model: 'EQS', year: 2023, price: 120000, type: 'LEGENDARY' },
-        { make: 'Mercedes-Benz', model: 'E-Class', year: 2023, price: 65000, type: 'REGULAR' },
-        { make: 'Mercedes-Benz', model: 'AMG SL 63', year: 2023, price: 180000, type: 'LEGENDARY' },
-        { make: 'Mercedes-Benz', model: 'AMG GT', year: 2023, price: 160000, type: 'EPIC' },
-        { make: 'Mercedes-Benz', model: 'A-Class', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'McLaren', model: 'P1', year: 2022, price: 2000000, type: 'LEGENDARY' },
-        { make: 'McLaren', model: 'Artura', year: 2023, price: 250000, type: 'LEGENDARY' },
-        { make: 'McLaren', model: '650S', year: 2022, price: 300000, type: 'LEGENDARY' },
-        { make: 'Mazda', model: 'MX-5', year: 2023, price: 35000, type: 'RARE' },
-        { make: 'Mazda', model: 'CX-90', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Mazda', model: 'CX-5', year: 2023, price: 35000, type: 'REGULAR' },
-        { make: 'Lucid', model: 'Air Sapphire', year: 2023, price: 250000, type: 'LEGENDARY' },
-        { make: 'Lexus', model: 'NX', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Lexus', model: 'LFA', year: 2022, price: 500000, type: 'LEGENDARY' },
-        { make: 'Lexus', model: 'GX', year: 2023, price: 65000, type: 'EPIC' },
-        { make: 'Lamborghini', model: 'Urus', year: 2023, price: 250000, type: 'LEGENDARY' },
-        { make: 'Lamborghini', model: 'Revuelto', year: 2023, price: 600000, type: 'LEGENDARY' },
-        { make: 'Lamborghini', model: 'Huracan', year: 2023, price: 280000, type: 'LEGENDARY' },
-        { make: 'Lamborghini', model: 'Centenario', year: 2022, price: 2000000, type: 'LEGENDARY' },
-        { make: 'Kia', model: 'Stinger', year: 2023, price: 45000, type: 'RARE' },
-        { make: 'Kia', model: 'K5', year: 2023, price: 30000, type: 'REGULAR' },
-        { make: 'Kia', model: 'EV9', year: 2023, price: 65000, type: 'EPIC' },
-        { make: 'Hummer', model: 'H3', year: 2022, price: 80000, type: 'RARE' },
-        { make: 'Hummer', model: 'EV', year: 2023, price: 120000, type: 'EPIC' },
-        { make: 'Ford', model: 'Mustang', year: 2023, price: 45000, type: 'RARE' },
-        { make: 'Ford', model: 'Focus', year: 2023, price: 25000, type: 'REGULAR' },
-        { make: 'Ford', model: 'Focus RS', year: 2022, price: 40000, type: 'RARE' },
-        { make: 'Ford', model: 'Explorer', year: 2023, price: 40000, type: 'REGULAR' },
-        { make: 'Ford', model: 'Bronco', year: 2023, price: 55000, type: 'EPIC' },
-        { make: 'Ferrari', model: 'SF90 Stradale', year: 2023, price: 500000, type: 'LEGENDARY' },
-        { make: 'Dodge', model: 'Viper SRT', year: 2022, price: 120000, type: 'EPIC' },
-        { make: 'Dodge', model: 'Charger', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Dodge', model: 'Challenger Hellcat', year: 2023, price: 65000, type: 'RARE' },
-        { make: 'Chevrolet', model: 'Tahoe', year: 2023, price: 65000, type: 'REGULAR' },
-        { make: 'Chevrolet', model: 'Silverado', year: 2023, price: 55000, type: 'REGULAR' },
-        { make: 'Chevrolet', model: 'Corvette Z06 C7', year: 2022, price: 120000, type: 'EPIC' },
-        { make: 'Chevrolet', model: 'Blazer', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Bentley', model: 'Continental GTC', year: 2023, price: 220000, type: 'LEGENDARY' },
-        { make: 'Bentley', model: 'Bentayga', year: 2023, price: 200000, type: 'LEGENDARY' },
-        { make: 'BMW', model: 'i4', year: 2023, price: 65000, type: 'EPIC' },
-        { make: 'BMW', model: 'X5', year: 2023, price: 75000, type: 'EPIC' },
-        { make: 'BMW', model: 'M4 CS', year: 2023, price: 120000, type: 'EPIC' },
-        { make: 'BMW', model: '335i', year: 2023, price: 55000, type: 'REGULAR' },
-        { make: 'BMW', model: '218i', year: 2023, price: 35000, type: 'REGULAR' },
-        { make: 'Audi', model: 'TT RS', year: 2023, price: 75000, type: 'EPIC' },
-        { make: 'Audi', model: 'RS E-Tron GT', year: 2023, price: 150000, type: 'LEGENDARY' },
-        { make: 'Audi', model: 'A4', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Audi', model: 'A1', year: 2023, price: 30000, type: 'REGULAR' },
-        { make: 'Aston Martin', model: 'Vantage', year: 2023, price: 250000, type: 'LEGENDARY' },
-        { make: 'Aston Martin', model: 'DBX', year: 2023, price: 200000, type: 'LEGENDARY' },
-        { make: 'Aston Martin', model: 'DBS', year: 2023, price: 350000, type: 'LEGENDARY' },
-        { make: 'Aston Martin', model: 'DB12', year: 2023, price: 250000, type: 'LEGENDARY' },
-        { make: 'Alfa Romeo', model: 'Stelvio', year: 2023, price: 45000, type: 'REGULAR' },
-        { make: 'Alfa Romeo', model: 'Giulia', year: 2023, price: 35000, type: 'REGULAR' },
-        { make: 'Alfa Romeo', model: '4C', year: 2022, price: 75000, type: 'RARE' }
-      ];
+      // Step 2: Generate car data dynamically from all files
+      const carData = generateAllCarData();
+      console.log(`Generated car data for ${carData.length} cars`);
 
-      // Insert all cars
-      const { data: insertedCars, error: insertError } = await supabase
+      // Step 3: Create new cars in database
+      const { data: createdCars, error: createError } = await supabase
         .from('cars')
         .insert(carData)
         .select();
 
-      if (insertError) {
-        console.error('Error inserting cars:', insertError);
-        message.error('Failed to insert new cars');
+      if (createError) {
+        console.error('Error creating cars:', createError);
+        message.error('Failed to create new cars');
         return;
       }
 
-      console.log('Successfully inserted cars:', insertedCars.length);
-      message.destroy();
-      message.success(`Successfully recreated ${insertedCars.length} cars from images!`);
+      console.log('Created', createdCars.length, 'cars in database');
+
+      // Step 4: Process images - rename and upload to Firebase Storage
+      message.loading('Processing car images...', 0);
+
+      // Test filename transformations
+      console.log("Testing filename transformations:");
+      previewFilenameTransformations();
+
+      // Process car images using the utility function with progress callback
+      const fileMappings = await processCarImages((progress) => {
+        const { step, current, total, percentage, currentFile } = progress;
+        const progressText = currentFile 
+          ? `${step}: ${current}/${total} (${percentage}%) - ${currentFile}`
+          : `${step}: ${current}/${total} (${percentage}%)`;
+        
+        message.loading(progressText, 0);
+      });
       
-      // Refresh the cars list
+      console.log('Image processing completed!');
+      console.log('Files processed:', fileMappings.length);
+      console.log('Files renamed to pattern: "Make Model.png"');
+      console.log('Files would be uploaded to Firebase Storage at: /images/cars/');
+      
+      // Log some examples of the file mappings
+      fileMappings.slice(0, 5).forEach(mapping => {
+        console.log(`  ${mapping.original} → ${mapping.renamed}`);
+      });
+
+      message.success(`Successfully recreated ${createdCars.length} cars from images!`);
+      
+      // Refresh the car list
       await fetchCars();
-      
+
     } catch (error) {
-      console.error('Error recreating cars:', error);
-      message.error('Failed to recreate cars');
+      console.error('Error in recreateCarsFromImages:', error);
+      message.error('Failed to recreate cars from images');
     } finally {
       setRecreatingCars(false);
+      message.destroy();
     }
   };
   
@@ -1264,7 +1214,7 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
         </div>
       )}
 
-{/* <div style={{ 
+      {/* <div style={{ 
         position: 'fixed', 
         top: '20px', 
         right: '20px', 
@@ -1291,6 +1241,51 @@ const CarsStore = ({ playerInfo, setMoney, money }) => {
           ➕ Create New Car
         </Button>
       </div> */}
+
+      {/* Temporary Button for Recreating Cars from Images */}
+      <div style={{ 
+        position: 'fixed', 
+        top: '20px', 
+        left: '20px', 
+        zIndex: 9999,
+        backgroundColor: '#ff4d4f',
+        padding: '10px',
+        borderRadius: '5px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+        minWidth: '250px'
+      }}>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            recreateCarsFromImages();
+          }}
+          disabled={recreatingCars}
+          style={{ 
+            backgroundColor: '#ff4d4f',
+            border: 'none',
+            color: 'white',
+            fontWeight: 'bold',
+            cursor: recreatingCars ? 'not-allowed' : 'pointer',
+            fontSize: '14px',
+            padding: '8px 12px',
+            borderRadius: '4px',
+            width: '100%'
+          }}
+        >
+          {recreatingCars ? '🔄 Processing 687 cars...' : '🔄 Recreate Cars from Images (687 files)'}
+        </button>
+        {recreatingCars && (
+          <div style={{
+            marginTop: '8px',
+            fontSize: '12px',
+            color: 'white',
+            textAlign: 'center'
+          }}>
+            Processing all files from src/assets/out
+          </div>
+        )}
+      </div>
 
 
     </div>
