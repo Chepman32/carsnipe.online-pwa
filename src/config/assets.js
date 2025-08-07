@@ -146,7 +146,13 @@ export const getCarImageUrl = (carName) => {
 };
 
 export const getAvatarUrl = (avatarName) => {
-  return `${ASSETS.avatars.baseUrl}${avatarName}.png`;
+  if (USE_EXTERNAL_STORAGE) {
+    // Firebase Storage URL format: https://firebasestorage.googleapis.com/v0/b/BUCKET/o/PATH?alt=media
+    const encodedPath = encodeURIComponent(`images/avatars/${avatarName}.png`);
+    return `${STORAGE_BASE_URL}/${encodedPath}?alt=media`;
+  } else {
+    return `${ASSETS.avatars.baseUrl}${avatarName}.png`;
+  }
 };
 
 export const getAchievementUrl = (achievementName) => {

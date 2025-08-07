@@ -281,6 +281,25 @@ const ProfileEditPage = ({ playerInfo, currentAuthenticatedUser, signOut, setPla
         <Link
           to="/achievements#/achievements"
           className={"achievements-button " + (focusedElement === 'achievements' ? 'focused' : '')}
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            zIndex: 999999,
+            display: 'block',
+            visibility: 'visible',
+            opacity: 1,
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: '10px 20px',
+            borderRadius: '30px',
+            textDecoration: 'none',
+            fontSize: '0.9rem',
+            fontWeight: 600,
+            minWidth: '140px',
+            textAlign: 'center',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
+          }}
         >
           My Achievements
         </Link>
